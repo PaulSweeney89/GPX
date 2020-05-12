@@ -5,11 +5,14 @@ import gpxpy
 import os
 import pandas as pd
 
-INDIR = r'C:\Users\plswe\Documents\Maps\GPX\New folder'
-OUTDIR = r'C:\Users\plswe\Documents\Maps\GPX\New folder'
+# Directory of gpx file to be converted to csv
+INDIR = r'/home/paul/Desktop/GPX/Parse'
 
-#Set the working directory to the INDI variable
-os.chdir(HOME)
+# Directory of output of csv file
+OUTDIR = r'/home/paul/Desktop/GPX/data'
+
+#Set the working directory to the INDIR variable
+os.chdir(INDIR)
 
 def parsegpx(f):
 
@@ -17,9 +20,9 @@ def parsegpx(f):
     with open(f, 'r') as gpxfile:
         gpx = gpxpy.parse(gpxfile)
         for track in gpx.tracks:
-            for segment in tracak.segments:
+            for segment in track.segments:
                 for point in segment.points:
-                    dict = {'Timestamp' : point.time.
+                    dict = {'Timestamp' : point.time,
                             'Latitude' : point.latitude,
                             'Longitude' : point.longitude,
                             'Elevation' : point.elevation
@@ -29,7 +32,7 @@ def parsegpx(f):
 
 files = os.listdir(INDIR)
 df2 = pd.concat([pd.DataFrame(parsegpx(f)) for f in files], keys=files)
-df2.head(5)
 
+# Output csv file
 os.chdir(OUTDIR)
-df2.to_csv('hike.csv')
+df2.to_csv('gps.csv')
