@@ -5,11 +5,18 @@ import gpxpy
 import os
 import pandas as pd
 
+parse_folder = os.path.abspath(os.path.expanduser('Desktop/GPX/Parse'))
+data_folder = os.path.abspath(os.path.expanduser('Desktop/GPX/data'))
+
+print(parse_folder)
+
 # Directory of gpx file to be converted to csv
-INDIR = r'/home/paul/Desktop/GPX/Parse'
+#INDIR = r'/home/paul/Desktop/GPX/Parse'
+INDIR = parse_folder
 
 # Directory of output of csv file
-OUTDIR = r'/home/paul/Desktop/GPX/data'
+#OUTDIR = r'/home/paul/Desktop/GPX/data'
+OUTDIR = data_folder
 
 #Set the working directory to the INDIR variable
 os.chdir(INDIR)

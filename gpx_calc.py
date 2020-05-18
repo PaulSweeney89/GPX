@@ -6,9 +6,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import haversine								# haversine for calculating the distance between coordinates
+import os
 
-df = pd.read_csv("data/gps.csv")
-
+csv_file = os.path.abspath(os.path.expanduser('Desktop/GPX/data/gps.csv'))
+df = pd.read_csv(csv_file)
+print(csv_file)
 
 # Calculating Distance & Elevation between Coordinates
 
@@ -36,7 +38,10 @@ distance = np.cumsum(dist)							# cumulative distance
 
 df['Distance'] = distance							# adding new distance column to csv file
 
-df.to_csv('data/gps.csv')
+df.to_csv(csv_file, index=False)
+
+total_distance = round(df['Distance'].max(),1)
+print(total_distance)
 
 # Calculating total Elevation Gain
 
@@ -65,6 +70,16 @@ ax.plot(df['Distance'], df['Elevation'], color='black')
 ax.fill_between(df['Distance'], df['Elevation'], facecolor='blue')
 ax.set_xlabel('Distance (km)')
 ax.set_ylabel('Elevation (m)')
-ax.text(0, 700, 'Elevation Gain = %s'%(gain))
-ax.text(0, 670, 'Elevation Loss = %s'%(loss))
+
+textstr = '\n'.join((
+    r'Elevation Gain = %sm' % (gain),
+    r'Elevation Loss = %sm' % (loss),
+    r'Total Distance = %skm' % (total_distance)))
+
+ax.text(0, 725, textstr, fontsize=14, verticalalignment='top', bbox=dict(facecolor='white', edgecolor='black', pad=5))
+
+ax.minorticks_on()
+ax.grid(which='major', linestyle='-', linewidth='1', color='black')
+ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+
 plt.show()
